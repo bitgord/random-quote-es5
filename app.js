@@ -1,19 +1,30 @@
 (function() {
 
+  var Class = ng.core.Class;
   var Component = ng.core.Component
   var NgModule = ng.core.NgModule;
   var BrowserModule = ng.platformBrowser.BrowserModule;
   var platformBrowserDynamic = ng.platformBrowserDynamic.platformBrowserDynamic;
 
+  var QuoteService = Class({
+    constructor: function() {
+      this.quotes = sampleQuotes;
+    },
+    getRandomQuote: function QuoteService() {
+      var randomIndex = Math.floor(Math.random() * this.quotes.length);
+      return this.quotes[randomIndex];
+    }
+  });
+
   var RandomQuoteComponent = Component({
     selector: 'random-quote',
     template: '<p><em>{{quote.line}}</em> - {{quote.author}}</p>'
   })
+
   .Class({
-    constructor: function() { 
-      var randomIndex = Math.floor(Math.random() * quotes.length);
-      this.quote = quotes[randomIndex];
-    }
+    constructor: [QuoteService, function RandomQuoteComponent(quoteService) { 
+      this.quote = quoteService.getRandomQuote();
+    }]
   });
 
   var AppComponent = Component({
@@ -21,12 +32,13 @@
     template: '<h1>Random Quote</h1>' + '<random-quote></random-quote>'
   })
   .Class({
-    constructor: function() { }
+    constructor: function AppComponent() { }
   });
 
   var AppModule = NgModule({
     imports: [BrowserModule],
     declarations: [AppComponent, RandomQuoteComponent],
+    providers: [QuoteService],
     bootstrap: [AppComponent]
   })
   .Class({
@@ -35,7 +47,7 @@
 
   platformBrowserDynamic().bootstrapModule(AppModule);
   
-  var quotes = [
+  var sampleQuotes = [
     {
       "line": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
       "author": "Brian W. Kernighan"

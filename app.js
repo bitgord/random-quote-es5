@@ -16,6 +16,17 @@
     }
   });
 
+  var MockQuoteService = Class({
+    constructor: function MockQuoteService() {
+    },
+    getRandomQuote: function () {
+      return {
+        line: 'A mock quote',
+        author: 'test'
+      };
+    }
+  });
+
   var RandomQuoteComponent = Component({
     selector: 'random-quote',
     template: '<p><em>{{quote.line}}</em> - {{quote.author}}</p>'
